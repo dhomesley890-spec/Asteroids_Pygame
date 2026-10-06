@@ -17,7 +17,8 @@ def main():
         if event.type == pygame.QUIT:
           return
       screen.fill("black")
-      dt = clo.tick(60) / 1000
+      dt = (clo.tick(60) / 1000)
+      ship.update(dt)
       ship.draw(screen)
       pygame.display.flip()
 
