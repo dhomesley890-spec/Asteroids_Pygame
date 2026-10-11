@@ -23,7 +23,7 @@ Built as part of the [Boot.dev](https://www.boot.dev/) Python course, then exten
 ## Installation
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/dhomesley890-spec/Asteroids_Pygame
 cd Asteroids
 pip install pygame
 ```
