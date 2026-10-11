@@ -8,9 +8,19 @@ from constants import LINE_WIDTH, ASTEROID_MIN_RADIUS
 class Asteroid(CircleShape):
     def __init__(self, x: float, y: float, radius: float) -> None:
         super().__init__(x, y, radius)
+        self.lumps = self._make_lumps()
+
+    def _make_lumps(self, points: int = 12) -> list[pygame.Vector2]:
+        shape = []
+        for i in range(points):
+            angle = i * 360 / points
+            scale = random.uniform(0.7, 1.1)
+            shape.append(pygame.Vector2(0, 1).rotate(angle) * scale)
+        return shape
 
     def draw(self, screen) -> None:
-        pygame.draw.circle(screen, "white", self.position, self.radius, LINE_WIDTH)
+        points = [self.position + lump * self.radius for lump in self.lumps]
+        pygame.draw.polygon(screen, "white", points, LINE_WIDTH)
 
     def update(self, dt: float) -> None:
         self.position += self.velocity * dt
