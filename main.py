@@ -1,6 +1,7 @@
 import pygame
 import sys
 from menu import run_menu
+from starfield import draw_starfield
 from player import Player
 from logger import log_state, log_event
 from asteroid import Asteroid
@@ -36,7 +37,7 @@ def run_game(screen, clock) -> bool:
                 add_score(score)
                 return False
 
-        screen.fill("black")
+        draw_starfield(screen)
         dt = clock.tick(60) / 1000
 
         updatable.update(dt)

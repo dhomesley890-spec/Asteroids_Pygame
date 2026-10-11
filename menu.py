@@ -4,6 +4,7 @@ import pygame
 import constants
 from asteroid import Asteroid
 from scoreboard import load_scores
+from starfield import draw_starfield
 
 # 5x5 pixel-style letters for the block title
 LETTERS = {
@@ -123,7 +124,7 @@ def run_scoreboard(screen, clock, background) -> bool:
 
         spawn_timer = tick_background(background, dt, spawn_timer)
 
-        screen.fill("black")
+        draw_starfield(screen)
         for asteroid in background:
             asteroid.draw(screen)
 
@@ -190,7 +191,7 @@ def run_menu(screen, clock) -> bool:
 
         spawn_timer = tick_background(background, dt, spawn_timer)
 
-        screen.fill("black")
+        draw_starfield(screen)
         for asteroid in background:
             asteroid.draw(screen)
 
