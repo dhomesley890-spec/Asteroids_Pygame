@@ -1,5 +1,6 @@
 import pygame
 import sys
+from settings import load_settings, is_fullscreen
 from menu import run_menu
 from starfield import draw_starfield
 from player import Player
@@ -36,6 +37,8 @@ def run_game(screen, clock) -> bool:
             if event.type == pygame.QUIT:
                 add_score(score)
                 return False
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_F11:
+                toggle_fullscreen()
 
         draw_starfield(screen)
         dt = clock.tick(60) / 1000
@@ -68,7 +71,12 @@ def main():
     print(f"Screen width: {constants.SCREEN_WIDTH}")
     print(f"Screen height: {constants.SCREEN_HEIGHT}")
     pygame.init()
-    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+    screen = pygame.display.set_mode(
+        (constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT), pygame.SCALED
+    )
+    load_settings()
+    if is_fullscreen():
+        pygame.display.toggle_fullscreen()
     clock = pygame.time.Clock()
 
     while run_menu(screen, clock):

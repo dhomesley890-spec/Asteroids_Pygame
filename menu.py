@@ -5,6 +5,7 @@ import constants
 from asteroid import Asteroid
 from scoreboard import load_scores
 from starfield import draw_starfield
+from settings import toggle_fullscreen, is_fullscreen
 
 # 5x5 pixel-style letters for the block title
 LETTERS = {
@@ -121,6 +122,8 @@ def run_scoreboard(screen, clock, background) -> bool:
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if back_rect.collidepoint(event.pos):
                     return True
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_F11:
+                toggle_fullscreen()
 
         spawn_timer = tick_background(background, dt, spawn_timer)
 
@@ -161,10 +164,12 @@ def run_menu(screen, clock) -> bool:
 
     start_rect = pygame.Rect(0, 0, 320, 64)
     scores_rect = pygame.Rect(0, 0, 320, 64)
+    fs_rect = pygame.Rect(0, 0, 320, 64)
     quit_rect = pygame.Rect(0, 0, 320, 64)
-    start_rect.center = (CX, 380)
-    scores_rect.center = (CX, 460)
-    quit_rect.center = (CX, 540)
+    start_rect.center = (CX, 360)
+    scores_rect.center = (CX, 430)
+    fs_rect.center = (CX, 500)
+    quit_rect.center = (CX, 570)
 
     spawn_timer = 0.0
 
@@ -186,8 +191,12 @@ def run_menu(screen, clock) -> bool:
                 if scores_rect.collidepoint(event.pos):
                     if not run_scoreboard(screen, clock, background):
                         return False
+                if fs_rect.collidepoint(event.pos):
+                    toggle_fullscreen()
                 if quit_rect.collidepoint(event.pos):
                     return False
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_F11:
+                toggle_fullscreen()
 
         spawn_timer = tick_background(background, dt, spawn_timer)
 
@@ -198,6 +207,8 @@ def run_menu(screen, clock) -> bool:
         draw_block_text(screen, "ASTEROIDS", CX, 140)
         draw_button(screen, button_font, start_rect, "START GAME", start_rect.collidepoint(mouse))
         draw_button(screen, button_font, scores_rect, "SCOREBOARD", scores_rect.collidepoint(mouse))
+        label = f"FULLSCREEN: {'ON' if is_fullscreen() else 'OFF'}"
+        draw_button(screen, button_font, fs_rect, label, fs_rect.collidepoint(mouse))
         draw_button(screen, button_font, quit_rect, "QUIT GAME", quit_rect.collidepoint(mouse))
 
         hint = hint_font.render("Enter to start  |  Esc to quit", True, "white")
